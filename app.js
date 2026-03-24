@@ -215,16 +215,26 @@ function renderMatchCard(matchPlan, delay) {
             
             downloadBtn.style.display = 'flex'; // Show button again
             
-            const image = canvas.toDataURL('image/png');
-            const link = document.createElement('a');
-            link.href = image;
-            
-            const gameName = card.querySelector('.team-name-input').value.replace(/[^a-zA-Z0-9_-]/g, '_');
-            link.download = `${gameName || 'Match_Plan'}.png`;
-            
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            canvas.toBlob((blob) => {
+                if (!blob) {
+                    console.error("Canvas toBlob failed");
+                    downloadBtn.style.display = 'flex';
+                    alert("Sorry, an error occurred preparing the image download.");
+                    return;
+                }
+                const blobUrl = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = blobUrl;
+                
+                const gameName = card.querySelector('.team-name-input').value.replace(/[^a-zA-Z0-9_-]/g, '_');
+                link.download = `${gameName || 'Match_Plan'}.png`;
+                
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+            }, 'image/png');
         } catch (error) {
             console.error("Failed to export image:", error);
             downloadBtn.style.display = 'flex';
