@@ -79,7 +79,16 @@
         <div class="team-card match-card">
             <div class="team-header">
                 <input type="text" class="team-name-input" value="Game 1">
-                <span class="team-count"><span class="sub-count">0</span> subs</span>
+                <div class="header-actions">
+                    <span class="team-count"><span class="sub-count">0</span> subs</span>
+                    <button class="download-btn" title="Download Match Plan">
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                    </button>
+                </div>
             </div>
 
             <div class="vertical-pitch">
@@ -109,6 +118,7 @@
         </div>
     </template>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="app.js"></script>
 </body>
 

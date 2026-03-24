@@ -203,6 +203,32 @@ function renderMatchCard(matchPlan, delay) {
         swapsSection.style.display = 'none';
     }
 
+    const downloadBtn = card.querySelector('.download-btn');
+    downloadBtn.addEventListener('click', async () => {
+        try {
+            downloadBtn.style.display = 'none'; // Hide button for clean screenshot
+            
+            const canvas = await html2canvas(card, {
+                backgroundColor: '#1f2937', // Match --card-bg visually
+                scale: 2 // High resolution output
+            });
+            
+            downloadBtn.style.display = 'flex'; // Show button again
+            
+            const image = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.href = image;
+            
+            const gameName = card.querySelector('.team-name-input').value.replace(/[^a-zA-Z0-9_-]/g, '_');
+            link.download = `${gameName || 'Match_Plan'}.png`;
+            link.click();
+        } catch (error) {
+            console.error("Failed to export image:", error);
+            downloadBtn.style.display = 'flex';
+            alert("Sorry, an error occurred while downloading the image.");
+        }
+    });
+
     teamsContainer.appendChild(card);
 }
 
