@@ -221,7 +221,10 @@ function renderMatchCard(matchPlan, delay) {
             
             const gameName = card.querySelector('.team-name-input').value.replace(/[^a-zA-Z0-9_-]/g, '_');
             link.download = `${gameName || 'Match_Plan'}.png`;
+            
+            document.body.appendChild(link);
             link.click();
+            document.body.removeChild(link);
         } catch (error) {
             console.error("Failed to export image:", error);
             downloadBtn.style.display = 'flex';
