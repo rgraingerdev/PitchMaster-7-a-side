@@ -73,6 +73,7 @@ header p {
     display: flex;
     gap: 8px;
     margin-bottom: 24px;
+    align-items: stretch;
 }
 
 input[type="text"] {
@@ -97,11 +98,13 @@ input[type="text"]:focus {
     background-color: var(--accent-primary);
     color: white;
     border: none;
-    padding: 0 20px;
+    padding: 0 16px;
     border-radius: 10px;
     font-weight: 600;
     cursor: pointer;
     transition: var(--transition-fast);
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 
 .primary-btn:hover {
