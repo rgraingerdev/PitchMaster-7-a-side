@@ -173,6 +173,7 @@ function generateMatchPlans() {
             id: matchPlans.length + 1,
             title: `Game ${matchPlans.length + 1}`,
             isLocked: false,
+            formation: document.getElementById('formation-select').value,
             starters: starters.map(p => ({ name: p.name, pos: p.pos })),
             subs: subs.map(p => ({ name: p.name, pos: p.pos })),
             swaps: swaps
@@ -227,6 +228,17 @@ function renderMatchCard(matchPlan, delay) {
         saveState();
     });
 
+    const formationSelect = card.querySelector('.card-formation-select');
+    if (formationSelect) {
+        formationSelect.value = matchPlan.formation || document.getElementById('formation-select').value;
+        formationSelect.addEventListener('change', (e) => {
+            matchPlan.formation = e.target.value;
+            matchPlan.isLocked = true;
+            saveState();
+            updateUI();
+        });
+    }
+
     const lockBtn = document.createElement('button');
     lockBtn.className = 'lock-btn';
     lockBtn.title = matchPlan.isLocked ? 'Unlock Match (will be regenerated)' : 'Lock Match (prevents regeneration)';
@@ -246,7 +258,7 @@ function renderMatchCard(matchPlan, delay) {
     
     card.querySelector('.sub-count').textContent = matchPlan.subs.length;
 
-    const formationInput = document.getElementById('formation-select').value;
+    const formationInput = matchPlan.formation || document.getElementById('formation-select').value;
     const [defCount, midCount, fwdCount] = formationInput.split('-').map(Number);
 
     let slots = { 'GK': 1, 'DEF': defCount, 'MID': midCount, 'FWD': fwdCount };
@@ -588,6 +600,7 @@ if (addEmptyBtn) {
             id: matchPlans.length + 1,
             title: `Custom Game ${matchPlans.length + 1}`,
             isLocked: true,
+            formation: document.getElementById('formation-select').value,
             starters: [],
             subs: [],
             swaps: []
