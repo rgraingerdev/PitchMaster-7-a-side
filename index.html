@@ -19,17 +19,17 @@
 
             <div class="input-group">
                 <input type="text" id="player-input" placeholder="e.g. Leo, Cristiano..." autocomplete="off">
+                <select id="player-pos" class="dropdown-select" style="width: 80px; flex-shrink: 0; padding: 0 8px; font-weight: 600;">
+                    <option value="ANY">Any</option>
+                    <option value="GK">GK</option>
+                    <option value="DEF">Def</option>
+                    <option value="MID">Mid</option>
+                    <option value="FWD">Fwd</option>
+                </select>
                 <button id="add-player-btn" class="primary-btn">Add</button>
             </div>
 
-            <div class="players-list-container">
-                <div class="list-header">
-                    <h3>Squad (<span id="player-count">0</span> / 14 max)</h3>
-                    <button id="clear-all-btn" class="text-btn">Clear squad</button>
-                </div>
-                <ul id="players-list" class="players-list">
-                </ul>
-            </div>
+
 
             <div class="sidebar-footer">
                 <div class="settings-group">
@@ -56,14 +56,31 @@
                     <p>Ideal match squad: 10-14 players.</p>
                 </div>
                 <button id="generate-teams-btn" class="generate-btn" disabled>Generate Match Plans</button>
+                <button id="add-empty-btn" style="width: 100%; margin-top: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: var(--text-primary); padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer;">Add Empty Match</button>
             </div>
         </aside>
 
         <main class="main-content">
-            <header class="main-header">
-                <h2>Match Plans</h2>
-                <p>Automated formations. Guaranteed fair playing time across games.</p>
+            <header class="main-header" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px;">
+                <div>
+                    <h2>Match Plans</h2>
+                    <p>Automated formations. Guaranteed fair playing time.</p>
+                </div>
+                <button id="share-btn" class="primary-btn" style="height: 36px; padding: 0 16px;">Share Link 🔗</button>
             </header>
+
+            <div class="master-pool-container" style="margin: 20px 0; padding: 20px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+                    <h3 style="margin: 0; font-size: 16px; font-weight: 600; color: var(--text-primary);">Drag & Drop Player Pool (<span id="player-count">0</span>)</h3>
+                    <div style="display: flex; gap: 16px; align-items: center;">
+                        <span id="player-pool-stats" style="font-size: 13px; color: var(--text-secondary);"></span>
+                        <button id="clear-all-btn" class="text-btn" style="color: var(--accent-red); margin: 0; padding: 0;">Clear Roster</button>
+                    </div>
+                </div>
+                <div id="players-list" style="display: flex; flex-wrap: wrap; gap: 12px; min-height: 48px; border: 1px dashed rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; align-items: center;">
+                </div>
+                <div style="font-size: 11px; color: var(--text-secondary); margin-top: 12px; text-align: center;">Click a player to toggle assignment availability for auto-generation. Drag and drop onto matches below to populate empty lines or manually replace specific players!</div>
+            </div>
 
             <section id="teams-container" class="teams-section empty-state">
                 <div class="empty-message">
@@ -119,6 +136,15 @@
     </template>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mobile-drag-drop@2.3.0-rc.2/default.css">
+    <script src="https://cdn.jsdelivr.net/npm/mobile-drag-drop@2.3.0-rc.2/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mobile-drag-drop@2.3.0-rc.2/scroll-behaviour.min.js"></script>
+    <script>
+        MobileDragDrop.polyfill({
+            dragImageTranslateOverride: MobileDragDrop.scrollBehaviourDragImageTranslateOverride
+        });
+        window.addEventListener('touchmove', function() {}, {passive: false});
+    </script>
     <script src="app.js"></script>
 </body>
 
